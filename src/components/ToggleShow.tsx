@@ -8,15 +8,16 @@ interface Props {
 
 const ToggleShow: React.FC<Props> = (props) => {
     return (
-        <div
-            className={`${styles.arrow} 
+        <div className={styles.arrowWrapper} onClick={props.onToggle}>
+            <div
+                className={`${styles.arrow} 
                                 ${
                                     props.show
                                         ? styles.arrowDown
                                         : styles.arrowRight
                                 }`}
-            onClick={props.onToggle}
-        />
+            />
+        </div>
     )
 }
 
