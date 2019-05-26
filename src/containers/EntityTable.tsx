@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import { StoreShape } from '../redux/store'
 import { Entity } from '../redux/data/reducer'
 import { getEntities, getEntitiesAttributes } from '../redux/data/selectors'
-import EntityItem from './EntityItem'
+import EntityTableView from '../components/EntityTableView'
 
 interface OwnProps {
     title?: string
@@ -15,33 +15,13 @@ interface Props extends OwnProps {
     attributes: string[]
 }
 
-const EntityTable: React.FC<Props> = (props) => {
-    return (
-        <table className="pure-table pure-table-bordered">
-            <thead>
-                {props.title && (
-                    <tr>
-                        <th colSpan={props.attributes.length}>{props.title}</th>
-                    </tr>
-                )}
-                <tr>
-                    {props.attributes.map((attr) => (
-                        <th key={attr}>{attr}</th>
-                    ))}
-                </tr>
-            </thead>
-            <tbody>
-                {props.entities.map((entity) => (
-                    <EntityItem
-                        key={entity.id}
-                        entity={entity}
-                        attributes={props.attributes}
-                    />
-                ))}
-            </tbody>
-        </table>
-    )
-}
+const EntityTable: React.FC<Props> = (props) => (
+    <EntityTableView
+        title={props.title}
+        entities={props.entities}
+        attributes={props.attributes}
+    />
+)
 
 export default connect(
     (state: StoreShape, props: OwnProps) => ({
