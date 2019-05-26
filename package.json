@@ -1,36 +1,73 @@
 {
-  "name": "json-formatter",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@types/jest": "24.0.13",
-    "@types/node": "12.0.2",
-    "@types/react": "16.8.18",
-    "@types/react-dom": "16.8.4",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1",
-    "typescript": "3.4.5"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+    "name": "json-formatter",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@types/lodash": "^4.14.132",
+        "@types/normalizr": "^2.0.18",
+        "@types/redux-thunk": "^2.1.0",
+        "@types/uuid": "^3.4.4",
+        "immer": "^3.1.2",
+        "lodash": "^4.17.11",
+        "node-sass": "^4.12.0",
+        "normalizr": "^3.3.0",
+        "purecss": "^1.0.0",
+        "react": "^16.8.6",
+        "react-dom": "^16.8.6",
+        "react-redux": "^7.0.3",
+        "react-scripts": "3.0.1",
+        "redux": "^4.0.1",
+        "redux-act": "^1.7.4",
+        "redux-thunk": "^2.3.0",
+        "typescript": "3.4.5",
+        "uuid": "^3.3.2"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "@types/jest": "24.0.13",
+        "@types/node": "12.0.2",
+        "@types/react": "16.8.18",
+        "@types/react-dom": "16.8.4",
+        "@types/react-redux": "^7.0.9",
+        "@types/redux": "^3.6.0",
+        "husky": ">=1",
+        "lint-staged": ">=8",
+        "prettier": "1.17.1",
+        "tslint": "^5.16.0",
+        "tslint-config-prettier": "^1.18.0",
+        "tslint-react": "^4.0.0"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "linters": {
+            "*.{ts,tsx,css,scss}": [
+                "prettier --write",
+                "git add"
+            ]
+        }
+    }
 }
