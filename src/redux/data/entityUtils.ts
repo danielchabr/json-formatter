@@ -1,10 +1,11 @@
 import { Entity, EntityMap, EntityInput } from './types'
 import uuid from 'uuid'
+import produce from 'immer'
 
 export const childrenKey = 'kids'
 export const dataKey = 'data'
 
-export const getChildrenIds = (entity: Entity) =>
+export const getChildrenIDs = (entity: Entity) =>
     Object.values(entity[childrenKey]).flatMap((value) => value.records)
 
 /**
@@ -32,7 +33,9 @@ export const processEntities = (
                         })
                         .map(processRecursive)
 
-                    entity[childrenKey][relation].records = IDs
+                    entity = produce(entity, (draft) => {
+                        draft[childrenKey][relation].records = IDs
+                    })
                     return IDs
                 }
             }

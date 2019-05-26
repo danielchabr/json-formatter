@@ -2,7 +2,7 @@ export interface EntityInput {
     data: {}
     kids: {
         [relation: string]: {
-            records: Entity[]
+            records: EntityInput[]
         }
     }
 }

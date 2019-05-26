@@ -9,7 +9,7 @@ import {
     setLoadingSuccess,
 } from './actions'
 import { Entity, LoadingStateEnum } from './types'
-import { childrenKey, getChildrenIds } from './entityUtils'
+import { childrenKey, getChildrenIDs } from './entityUtils'
 
 export interface DataShape {
     loadingStatus: {
@@ -84,7 +84,7 @@ export default createReducer<DataShape>({}, defaultState)
             // remove all children recursively
 
             const removeChildrenRec = (entity: Entity) => {
-                getChildrenIds(entity).forEach((id) => {
+                getChildrenIDs(entity).forEach((id) => {
                     removeChildrenRec(draft.entities[id])
                     delete draft.entities[id]
                 })
