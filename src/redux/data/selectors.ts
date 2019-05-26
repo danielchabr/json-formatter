@@ -1,5 +1,6 @@
 import { StoreShape } from '../store'
 import { union } from 'lodash'
+import { dataKey } from './entityUtils'
 
 export const getRootEntityList = (state: StoreShape) =>
     state.data.rootEntityList
@@ -13,7 +14,7 @@ export const getEntitiesAttributes = (
     entityList: string[]
 ) =>
     entityList
-        .map((id) => state.data.entities[id].data)
+        .map((id) => state.data.entities[id][dataKey])
         .reduce(
             (attributes: string[], entity) =>
                 union(Object.keys(entity), attributes),

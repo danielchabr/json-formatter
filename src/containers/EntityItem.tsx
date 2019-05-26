@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import EntityItemView from '../components/EntityItemView'
 import { removeEntity } from '../redux/data/actions'
-import { Entity } from '../redux/data/reducer'
+import { Entity } from '../redux/data/types'
 
 interface OwnProps {
     entity: Entity

@@ -5,7 +5,7 @@ import FileUploadView from '../components/FileUploadView'
 import { loadFileAsync } from '../redux/data/actions'
 import { getLoadingStatus } from '../redux/data/selectors'
 import { StoreShape } from '../redux/store'
-import { LoadingStateEnum } from '../redux/data/reducer'
+import { LoadingStateEnum } from '../redux/data/types'
 
 interface OwnProps {}
 interface Props extends OwnProps {

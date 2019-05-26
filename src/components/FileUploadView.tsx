@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './FileUploadView.module.scss'
-import { LoadingStateEnum } from '../redux/data/reducer'
+import { LoadingStateEnum } from '../redux/data/types'
 
 interface Props {
     handleFile: (file: File) => void

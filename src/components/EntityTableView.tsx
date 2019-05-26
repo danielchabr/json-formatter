@@ -1,5 +1,5 @@
 import React from 'react'
-import { Entity } from '../redux/data/reducer'
+import { Entity } from '../redux/data/types'
 import EntityItem from '../containers/EntityItem'
 import styles from './EntityTableView.module.scss'
 

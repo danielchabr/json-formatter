@@ -1,7 +1,8 @@
 import React, { Fragment, useState } from 'react'
-import { Entity } from '../redux/data/reducer'
+import { Entity } from '../redux/data/types'
 import EntityTable from '../containers/EntityTable'
 import ToggleShow from './ToggleShow'
+import { childrenKey } from '../redux/data/entityUtils'
 
 interface OwnProps {
     entity: Entity
@@ -10,7 +11,7 @@ interface OwnProps {
 }
 
 const EntityItemView: React.FC<OwnProps> = (props) => {
-    const hasChildren = Object.keys(props.entity.kids).length > 0
+    const hasChildren = Object.keys(props.entity[childrenKey]).length > 0
     const [showChildren, setShowChildren] = useState(false)
 
     return (
@@ -36,13 +37,18 @@ const EntityItemView: React.FC<OwnProps> = (props) => {
             {hasChildren && showChildren && (
                 <tr>
                     <td colSpan={props.attributes.length + 2}>
-                        {Object.keys(props.entity.kids).map((relation) => (
-                            <EntityTable
-                                key={relation}
-                                title={relation}
-                                entityList={props.entity.kids[relation].records}
-                            />
-                        ))}
+                        {Object.keys(props.entity[childrenKey]).map(
+                            (relation) => (
+                                <EntityTable
+                                    key={relation}
+                                    title={relation}
+                                    entityList={
+                                        props.entity[childrenKey][relation]
+                                            .records
+                                    }
+                                />
+                            )
+                        )}
                     </td>
                 </tr>
             )}

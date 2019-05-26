@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { StoreShape } from '../redux/store'
-import { Entity } from '../redux/data/reducer'
+import { Entity } from '../redux/data/types'
 import { getEntities, getEntitiesAttributes } from '../redux/data/selectors'
 import EntityTableView from '../components/EntityTableView'
 

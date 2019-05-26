@@ -8,29 +8,8 @@ import {
     setLoadingInProgress,
     setLoadingSuccess,
 } from './actions'
-
-export const childrenKey = 'kids'
-
-type UUID = string
-export interface Entity {
-    id: UUID
-    parentId: UUID
-    data: {
-        [key: string]: any
-    }
-    kids: {
-        [relation: string]: {
-            records: UUID[]
-        }
-    }
-}
-
-export enum LoadingStateEnum {
-    NONE,
-    IN_PROGRESS,
-    SUCCESS,
-    ERROR,
-}
+import { Entity, LoadingStateEnum } from './types'
+import { childrenKey, getChildrenIds } from './entityUtils'
 
 export interface DataShape {
     loadingStatus: {
@@ -103,10 +82,6 @@ export default createReducer<DataShape>({}, defaultState)
             }
 
             // remove all children recursively
-            const getChildrenIds = (entity: Entity) =>
-                Object.values(entity[childrenKey]).flatMap(
-                    (value) => value.records
-                )
 
             const removeChildrenRec = (entity: Entity) => {
                 getChildrenIds(entity).forEach((id) => {

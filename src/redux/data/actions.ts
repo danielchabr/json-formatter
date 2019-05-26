@@ -1,7 +1,8 @@
 import { createAction } from 'redux-act'
 import { Dispatch, Action } from 'redux'
-import { Entity, childrenKey } from './reducer'
-import uuid from 'uuid'
+import { Entity, EntityInput } from './types'
+import { EntityMap } from './types'
+import { processEntities } from './entityUtils'
 
 export const removeEntity = createAction<string>('remove entity')
 export const setEntities = createAction<{ [id: string]: Entity }>(
@@ -34,41 +35,13 @@ export const loadFileAsync = (file: File) => {
     }
 }
 
-export const normalizeDataAsync = (data: any) => {
-    return (dispatch: Dispatch<Action<any>>) => {
-        const entities: {
-            [UUID: string]: Entity
-        } = {}
+export const normalizeDataAsync = (data: EntityInput[]) => (
+    dispatch: Dispatch<Action<any>>
+) => {
+    const entityMap: EntityMap = {}
+    const IDs: string[] = processEntities(entityMap, data)
 
-        const processEntity = (entity: any): string => {
-            const ID = uuid()
-            entity.id = ID
-
-            // process children
-            Object.entries(entity[childrenKey]).flatMap(
-                ([relation, value]: [string, any]) => {
-                    if (value.records) {
-                        const IDs = value.records
-                            .map((record: any) => {
-                                record.parentId = ID
-                                return record
-                            })
-                            .map(processEntity)
-
-                        entity[childrenKey][relation].records = IDs
-                        return IDs
-                    }
-                }
-            )
-
-            entities[ID] = entity
-            return ID
-        }
-
-        const rootEntityList = data.map(processEntity)
-
-        dispatch(setEntities(entities))
-        dispatch(setRootEntityList(rootEntityList))
-        dispatch(setLoadingSuccess())
-    }
+    dispatch(setEntities(entityMap))
+    dispatch(setRootEntityList(IDs))
+    dispatch(setLoadingSuccess())
 }
