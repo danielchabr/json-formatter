@@ -2,9 +2,11 @@ import { createReducer } from 'redux-act'
 import produce from 'immer'
 import {
     setEntities,
-    dataLoadingError,
     setRootEntityList,
     removeEntity,
+    setLoadingError,
+    setLoadingInProgress,
+    setLoadingSuccess,
 } from './actions'
 
 export const childrenKey = 'kids'
@@ -23,7 +25,18 @@ export interface Entity {
     }
 }
 
+export enum LoadingStateEnum {
+    NONE,
+    IN_PROGRESS,
+    SUCCESS,
+    ERROR,
+}
+
 export interface DataShape {
+    loadingStatus: {
+        state: LoadingStateEnum
+        error?: string
+    }
     entities: {
         [UUID: string]: Entity
     }
@@ -31,6 +44,9 @@ export interface DataShape {
 }
 
 const defaultState: DataShape = {
+    loadingStatus: {
+        state: LoadingStateEnum.NONE,
+    },
     entities: {},
     rootEntityList: [],
 }
@@ -46,9 +62,20 @@ export default createReducer<DataShape>({}, defaultState)
             draft.rootEntityList = payload
         })
     )
-    .on(dataLoadingError, (state, payload) =>
+    .on(setLoadingError, (state, payload) =>
         produce(state, (draft) => {
-            console.error(payload)
+            draft.loadingStatus.state = LoadingStateEnum.ERROR
+            draft.loadingStatus.error = payload
+        })
+    )
+    .on(setLoadingInProgress, (state) =>
+        produce(state, (draft) => {
+            draft.loadingStatus.state = LoadingStateEnum.IN_PROGRESS
+        })
+    )
+    .on(setLoadingSuccess, (state) =>
+        produce(state, (draft) => {
+            draft.loadingStatus.state = LoadingStateEnum.SUCCESS
         })
     )
     .on(removeEntity, (state, payload) =>
@@ -75,7 +102,7 @@ export default createReducer<DataShape>({}, defaultState)
                 })
             }
 
-            // remove all children
+            // remove all children recursively
             const getChildrenIds = (entity: Entity) =>
                 Object.values(entity[childrenKey]).flatMap(
                     (value) => value.records

@@ -19,3 +19,5 @@ export const getEntitiesAttributes = (
                 union(Object.keys(entity), attributes),
             []
         )
+
+export const getLoadingStatus = (state: StoreShape) => state.data.loadingStatus
