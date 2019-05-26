@@ -1,8 +1,9 @@
 import { createAction } from 'redux-act'
 import { Dispatch, Action } from 'redux'
-import { Entity, DataShape } from './reducer'
+import { Entity, DataShape, childrenKey } from './reducer'
 import uuid from 'uuid'
 
+export const removeEntity = createAction<string>('remove entity')
 export const setEntities = createAction<{ [id: string]: Entity }>(
     'set entity data'
 )
@@ -36,17 +37,21 @@ export const normalizeDataAsync = (data: any) => {
             rootEntityList: [],
         }
 
-        const childrenKey = 'kids'
-
         const processEntity = (entity: any): string => {
             const ID = uuid()
-            entity.ID = ID
+            entity.id = ID
 
             // process children
             Object.entries(entity[childrenKey]).flatMap(
                 ([relation, value]: [string, any]) => {
                     if (value.records) {
-                        const IDs = value.records.map(processEntity)
+                        const IDs = value.records
+                            .map((record: any) => {
+                                record.parentId = ID
+                                return record
+                            })
+                            .map(processEntity)
+
                         entity[childrenKey][relation].records = IDs
                         return IDs
                     }
@@ -59,7 +64,6 @@ export const normalizeDataAsync = (data: any) => {
 
         normalizedData.rootEntityList = data.map(processEntity)
 
-        console.log(normalizedData)
         dispatch(setEntities(normalizedData.entities))
         dispatch(setRootEntityList(normalizedData.rootEntityList))
     }
