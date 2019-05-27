@@ -7,7 +7,7 @@ export interface EntityInput {
     }
 }
 
-type UUID = string
+export type UUID = string
 export interface Entity {
     id: UUID
     parentId?: UUID

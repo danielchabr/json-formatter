@@ -2,13 +2,11 @@ import { normalize } from 'normalizr'
 import { Action, Dispatch } from 'redux'
 import { createAction } from 'redux-act'
 import { entitiesSchema } from './entityUtils'
-import { Entity, EntityInput } from './types'
+import { EntityInput, UUID, EntityMap, Entity } from './types'
 
-export const removeEntity = createAction<string>('remove entity')
-export const setEntities = createAction<{ [id: string]: Entity }>(
-    'set entity data'
-)
-export const setRootEntityList = createAction<string[]>('set root entity list')
+export const removeEntity = createAction<UUID>('remove entity')
+export const setEntities = createAction<EntityMap>('set entity data')
+export const setRootEntityList = createAction<UUID[]>('set root entity list')
 
 export const setLoadingError = createAction<string>('error loading data')
 export const setLoadingSuccess = createAction('success loading data')
