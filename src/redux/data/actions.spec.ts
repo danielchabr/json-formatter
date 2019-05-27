@@ -1,5 +1,5 @@
 import {
-    normalizeDataAsync,
+    normalizeData,
     setLoadingSuccess,
     setEntities,
     setRootEntityList,
@@ -10,11 +10,11 @@ import {
 describe('normalizeDataAsync', () => {
     it("doesn't fail on empty data array", async () => {
         const dispatchMock = jest.fn()
-        normalizeDataAsync([])(dispatchMock)
+        normalizeData([])(dispatchMock)
     })
     it('triggers correct actions on success', async () => {
         const dispatchMock = jest.fn()
-        normalizeDataAsync([])(dispatchMock)
+        normalizeData([])(dispatchMock)
         expect(dispatchMock).toBeCalledTimes(3)
         expect(dispatchMock.mock.calls[0][0]).toStrictEqual(setEntities({}))
         expect(dispatchMock.mock.calls[1][0]).toStrictEqual(

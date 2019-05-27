@@ -1,5 +1,6 @@
-import { EntityInput, EntityMap } from './types'
-import { getChildrenIDs, processEntities } from './entityUtils'
+import { EntityInput } from './types'
+import { getChildrenIDs, entitiesSchema } from './entityUtils'
+import { normalize } from 'normalizr'
 
 jest.mock(
     'uuid',
@@ -36,13 +37,12 @@ describe('getChildrenIDs', () => {
     })
 })
 
-describe('processEntities', () => {
+describe('normalize with entitiesSchema', () => {
     it('correctly normalize data', () => {
-        const map: EntityMap = {}
-        const rootIDs = processEntities(map, entityInputTestData)
+        const normalizedData = normalize(entityInputTestData, entitiesSchema)
 
-        expect(rootIDs).toEqual([0])
-        expect(map[2].data).toEqual(
+        expect(normalizedData.result).toEqual([0])
+        expect(normalizedData.entities.entity[2].data).toEqual(
             entityInputTestData[0].kids['has_relatives'].records[0].kids[
                 'has_phone'
             ].records[0].data
