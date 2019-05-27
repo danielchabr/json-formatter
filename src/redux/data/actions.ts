@@ -2,7 +2,7 @@ import { normalize } from 'normalizr'
 import { Action, Dispatch } from 'redux'
 import { createAction } from 'redux-act'
 import { entitiesSchema } from './entityUtils'
-import { EntityInput, UUID, EntityMap, Entity } from './types'
+import { EntityInput, UUID, EntityMap } from './types'
 
 export const removeEntity = createAction<UUID>('remove entity')
 export const setEntities = createAction<EntityMap>('set entity data')
