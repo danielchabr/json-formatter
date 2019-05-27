@@ -6,19 +6,17 @@ interface Props {
     onToggle: () => void
 }
 
-const ToggleShow: React.FC<Props> = (props) => {
-    return (
-        <div className={styles.arrowWrapper} onClick={props.onToggle}>
-            <div
-                className={`${styles.arrow} 
+const ToggleShow: React.FC<Props> = (props) => (
+    <div className={styles.arrowWrapper} onClick={props.onToggle}>
+        <div
+            className={`${styles.arrow} 
                                 ${
                                     props.show
                                         ? styles.arrowDown
                                         : styles.arrowRight
                                 }`}
-            />
-        </div>
-    )
-}
+        />
+    </div>
+)
 
 export default ToggleShow
