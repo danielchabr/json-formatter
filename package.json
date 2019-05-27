@@ -4,11 +4,13 @@
     "private": true,
     "dependencies": {
         "@types/lodash": "^4.14.132",
+        "@types/normalizr": "^2.0.18",
         "@types/redux-thunk": "^2.1.0",
         "@types/uuid": "^3.4.4",
         "immer": "^3.1.2",
         "lodash": "^4.17.11",
         "node-sass": "^4.12.0",
+        "normalizr": "^3.3.0",
         "purecss": "^1.0.0",
         "react": "^16.8.6",
         "react-dom": "^16.8.6",
