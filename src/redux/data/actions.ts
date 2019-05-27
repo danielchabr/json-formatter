@@ -1,10 +1,8 @@
+import { normalize } from 'normalizr'
+import { Action, Dispatch } from 'redux'
 import { createAction } from 'redux-act'
-import { Dispatch, Action } from 'redux'
+import { entitiesSchema } from './entityUtils'
 import { Entity, EntityInput } from './types'
-import { EntityMap } from './types'
-import { processEntities } from './entityUtils'
-import { normalize, schema } from 'normalizr'
-import uuid from 'uuid'
 
 export const removeEntity = createAction<string>('remove entity')
 export const setEntities = createAction<{ [id: string]: Entity }>(
@@ -24,8 +22,7 @@ export const loadFileAsync = (file: File) => {
             const content = fileReader.result as string
             try {
                 const parsedData = JSON.parse(content)
-                // normalizeDataAsync(parsedData)(dispatch)
-                normalizrAsync(parsedData)(dispatch)
+                normalizeData(parsedData)(dispatch)
             } catch (error) {
                 dispatch(setLoadingError(error && error.message))
             }
@@ -38,43 +35,12 @@ export const loadFileAsync = (file: File) => {
     }
 }
 
-export const normalizrAsync = (data: EntityInput[]) => (
+export const normalizeData = (data: EntityInput[]) => (
     dispatch: Dispatch<Action<any>>
 ) => {
-    const entityMap: EntityMap = {}
-    const IDs: string[] = []
+    const normalizedData = normalize(data, entitiesSchema)
 
-    const entity = new schema.Entity(
-        'entity',
-        {},
-        {
-            idAttribute: 'id',
-            processStrategy: (value) => {
-                if (!Object.prototype.hasOwnProperty.call(value, 'id')) {
-                    value.id = uuid()
-                }
-                return { ...value }
-            },
-        }
-    )
-    const values = new schema.Values({
-        records: new schema.Array(entity),
-    })
-    entity.define({ kids: values })
-    const normalizedData = normalize(data, [entity])
-
-    dispatch(setEntities(normalizedData.entities.entity))
+    dispatch(setEntities(normalizedData.entities.entity || {}))
     dispatch(setRootEntityList(normalizedData.result))
-    dispatch(setLoadingSuccess())
-}
-
-export const normalizeDataAsync = (data: EntityInput[]) => (
-    dispatch: Dispatch<Action<any>>
-) => {
-    const entityMap: EntityMap = {}
-    const IDs: string[] = processEntities(entityMap, data)
-
-    dispatch(setEntities(entityMap))
-    dispatch(setRootEntityList(IDs))
     dispatch(setLoadingSuccess())
 }
