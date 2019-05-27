@@ -1,3 +1,19 @@
+#JSON Formatter 
+This project allows a user to upload a JSON file and then displays it in a tabular view. The JSON file should contain an array of entities with the following structure TypeScript definition:
+
+```
+interface Entity {
+    data: {
+        [key: string]: string
+    }
+    kids: {
+        [relation: string]: {
+            records: Entity[]
+        }
+    }
+}
+```typescript
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
