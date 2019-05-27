@@ -9,6 +9,11 @@ export const getEntities = (state: StoreShape, entityList: string[]) => {
     return entityList.map((id) => state.data.entities[id])
 }
 
+/**
+ * @param state store state
+ * @param entityList array of entity IDs
+ * @returns array of all attributes that occur in any of the entities
+ */
 export const getEntitiesAttributes = (
     state: StoreShape,
     entityList: string[]
