@@ -1,14 +1,12 @@
+import { normalize } from 'normalizr'
+import { Action, Dispatch } from 'redux'
 import { createAction } from 'redux-act'
-import { Dispatch, Action } from 'redux'
-import { Entity, EntityInput } from './types'
-import { EntityMap } from './types'
-import { processEntities } from './entityUtils'
+import { entitiesSchema } from './entityUtils'
+import { EntityInput, UUID, EntityMap, Entity } from './types'
 
-export const removeEntity = createAction<string>('remove entity')
-export const setEntities = createAction<{ [id: string]: Entity }>(
-    'set entity data'
-)
-export const setRootEntityList = createAction<string[]>('set root entity list')
+export const removeEntity = createAction<UUID>('remove entity')
+export const setEntities = createAction<EntityMap>('set entity data')
+export const setRootEntityList = createAction<UUID[]>('set root entity list')
 
 export const setLoadingError = createAction<string>('error loading data')
 export const setLoadingSuccess = createAction('success loading data')
@@ -22,7 +20,7 @@ export const loadFileAsync = (file: File) => {
             const content = fileReader.result as string
             try {
                 const parsedData = JSON.parse(content)
-                normalizeDataAsync(parsedData)(dispatch)
+                normalizeData(parsedData)(dispatch)
             } catch (error) {
                 dispatch(setLoadingError(error && error.message))
             }
@@ -35,13 +33,12 @@ export const loadFileAsync = (file: File) => {
     }
 }
 
-export const normalizeDataAsync = (data: EntityInput[]) => (
+export const normalizeData = (data: EntityInput[]) => (
     dispatch: Dispatch<Action<any>>
 ) => {
-    const entityMap: EntityMap = {}
-    const IDs: string[] = processEntities(entityMap, data)
+    const normalizedData = normalize(data, entitiesSchema)
 
-    dispatch(setEntities(entityMap))
-    dispatch(setRootEntityList(IDs))
+    dispatch(setEntities(normalizedData.entities.entity || {}))
+    dispatch(setRootEntityList(normalizedData.result))
     dispatch(setLoadingSuccess())
 }

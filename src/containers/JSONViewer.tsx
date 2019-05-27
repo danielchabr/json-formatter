@@ -10,9 +10,9 @@ interface Props extends OwnProps {
     rootEntityList: string[]
 }
 
-const JSONViewer: React.FC<Props> = (props) => {
-    return <EntityTable entityList={props.rootEntityList} />
-}
+const JSONViewer: React.FC<Props> = (props) => (
+    <EntityTable entityList={props.rootEntityList} />
+)
 
 export default connect(
     (state: StoreShape, props: OwnProps) => ({

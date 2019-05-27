@@ -27,7 +27,7 @@ it('set entities', () => {
 })
 
 describe('removeEntity reducer', () => {
-    it('remove child entity', () => {
+    it('remove entity with parent', () => {
         const id = 'abc'
         const childId = 'child'
         const setEntitiesResult = dataReducer(

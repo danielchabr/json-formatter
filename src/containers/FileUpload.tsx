@@ -14,19 +14,13 @@ interface Props extends OwnProps {
     error?: string
 }
 
-const FileUpload = (props: Props) => {
-    function handleFile(file: File) {
-        props.loadFile(file)
-    }
-
-    return (
-        <FileUploadView
-            handleFile={handleFile}
-            loadingState={props.loadingState}
-            error={props.error}
-        />
-    )
-}
+const FileUpload: React.FC<Props> = (props) => (
+    <FileUploadView
+        handleFile={props.loadFile}
+        loadingState={props.loadingState}
+        error={props.error}
+    />
+)
 
 export default connect(
     (state: StoreShape) => ({

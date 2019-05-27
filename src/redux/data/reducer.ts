@@ -70,19 +70,16 @@ export default createReducer<DataShape>({}, defaultState)
                 const children = draft.entities[parentId][childrenKey]
 
                 Object.entries(children).forEach(([relation, value]) => {
-                    children[relation].records = children[
-                        relation
-                    ].records.filter((id) => id !== payload)
+                    value.records = value.records.filter((id) => id !== payload)
 
                     // delete the whole relation, if there are no more children in relation,
-                    if (children[relation].records.length === 0) {
+                    if (value.records.length === 0) {
                         delete children[relation]
                     }
                 })
             }
 
             // remove all children recursively
-
             const removeChildrenRec = (entity: Entity) => {
                 getChildrenIDs(entity).forEach((id) => {
                     removeChildrenRec(draft.entities[id])
