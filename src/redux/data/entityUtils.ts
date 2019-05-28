@@ -6,7 +6,7 @@ export const childrenKey = 'kids'
 export const dataKey = 'data'
 
 export const getChildrenIDs = (entity: Entity) =>
-    Object.values(entity[childrenKey]).flatMap((value) => value.records)
+    Object.values(entity[childrenKey] || []).flatMap((value) => value.records)
 
 const entitySchema = new schema.Entity(
     'entity',
@@ -18,7 +18,7 @@ const entitySchema = new schema.Entity(
                 entity.id = uuid()
             }
 
-            Object.values(entity[childrenKey]).forEach((value: any) => {
+            Object.values(entity[childrenKey] || []).forEach((value: any) => {
                 if (value.records) {
                     value.records.forEach((record: any) => {
                         record.parentId = entity.id

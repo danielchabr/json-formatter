@@ -11,32 +11,57 @@ const entityList = {
     rootEntityList: [],
 }
 
-it('set entities', () => {
-    const mockState = {
-        data: {
-            entities: {
-                a: {
-                    [dataKey]: {
-                        attr1: '',
-                        attr2: '',
+describe('getEntitiesAttributes', () => {
+    it('creates a union of attributes correctly', () => {
+        const mockState = {
+            data: {
+                entities: {
+                    a: {
+                        [dataKey]: {
+                            attr1: '',
+                            attr2: '',
+                        },
                     },
-                },
-                b: {
-                    [dataKey]: {
-                        attr2: '',
-                        attr3: '',
+                    b: {
+                        [dataKey]: {
+                            attr2: '',
+                            attr3: '',
+                        },
                     },
                 },
             },
-        },
-    }
-    const attributes = getEntitiesAttributes((mockState as any) as StoreShape, [
-        'a',
-        'b',
-    ])
+        }
+        const attributes = getEntitiesAttributes(
+            (mockState as any) as StoreShape,
+            ['a', 'b']
+        )
 
-    expect(attributes.length).toEqual(3)
-    expect(attributes).toContain('attr1')
-    expect(attributes).toContain('attr2')
-    expect(attributes).toContain('attr3')
+        expect(attributes.length).toEqual(3)
+        expect(attributes).toContain('attr1')
+        expect(attributes).toContain('attr2')
+        expect(attributes).toContain('attr3')
+    })
+    it('does not fail if no data attribute is present', () => {
+        const mockState = {
+            data: {
+                entities: {
+                    a: {},
+                    b: {
+                        [dataKey]: {
+                            attr2: '',
+                            attr3: '',
+                        },
+                    },
+                },
+            },
+        }
+        const attributes = getEntitiesAttributes(
+            (mockState as any) as StoreShape,
+            ['a', 'b']
+        )
+
+        expect(attributes.length).toEqual(2)
+        expect(attributes).toContain('attr2')
+        expect(attributes).toContain('attr3')
+    })
 })

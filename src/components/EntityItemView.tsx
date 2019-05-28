@@ -11,7 +11,9 @@ interface OwnProps {
 }
 
 const EntityItemView: React.FC<OwnProps> = (props) => {
-    const hasChildren = Object.keys(props.entity[childrenKey]).length > 0
+    const hasChildren = Object.values(props.entity[childrenKey] || []).some(
+        (value) => value && value.records && value.records.length > 0
+    )
     const [showChildren, setShowChildren] = useState(false)
 
     return (
@@ -37,15 +39,12 @@ const EntityItemView: React.FC<OwnProps> = (props) => {
             {hasChildren && showChildren && (
                 <tr>
                     <td colSpan={props.attributes.length + 2}>
-                        {Object.keys(props.entity[childrenKey]).map(
-                            (relation) => (
+                        {Object.entries(props.entity[childrenKey]).map(
+                            ([relation, value]) => (
                                 <EntityTable
                                     key={relation}
                                     title={relation}
-                                    entityList={
-                                        props.entity[childrenKey][relation]
-                                            .records
-                                    }
+                                    entityList={value.records}
                                 />
                             )
                         )}

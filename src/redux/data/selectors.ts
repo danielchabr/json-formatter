@@ -17,7 +17,7 @@ export const getEntities = (state: StoreShape, entityList: UUID[]) => {
  */
 export const getEntitiesAttributes = (state: StoreShape, entityList: UUID[]) =>
     entityList
-        .map((id) => state.data.entities[id][dataKey])
+        .map((id) => state.data.entities[id][dataKey] || [])
         .reduce(
             (attributes: string[], entity) =>
                 union(Object.keys(entity), attributes),
