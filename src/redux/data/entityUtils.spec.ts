@@ -41,12 +41,52 @@ describe('normalize with entitiesSchema', () => {
     it('correctly normalize data', () => {
         const normalizedData = normalize(entityInputTestData, entitiesSchema)
 
-        expect(normalizedData.result).toEqual([0])
+        expect(normalizedData.result.length).toEqual(1)
+        const index = normalizedData.result[0]
         expect(normalizedData.entities.entity[2].data).toEqual(
-            entityInputTestData[0].kids['has_relatives'].records[0].kids[
+            entityInputTestData[index].kids['has_relatives'].records[0].kids[
                 'has_phone'
             ].records[0].data
         )
+    })
+    it('correctly normalize data with empty records', () => {
+        const testData = [
+            {
+                data: {},
+                kids: {
+                    relationA: { records: [] },
+                },
+            },
+        ]
+        const normalizedData = normalize(testData, entitiesSchema)
+        console.log(normalizedData)
+        expect(normalizedData.result.length).toEqual(1)
+    })
+    it('correctly normalize data with no records', () => {
+        const testData = [
+            {
+                data: {},
+                kids: {
+                    relationA: {},
+                },
+            },
+        ]
+        const normalizedData = normalize(testData, entitiesSchema)
+        expect(normalizedData.result.length).toEqual(1)
+    })
+    it('does not fail on data without kids attribute', () => {
+        const testData = [
+            {
+                data: {},
+            },
+        ]
+        const normalizedData = normalize(testData, entitiesSchema)
+        expect(normalizedData.result.length).toEqual(1)
+    })
+    it('does not fail on data without data attribute', () => {
+        const testData = [{}]
+        const normalizedData = normalize(testData, entitiesSchema)
+        expect(normalizedData.result.length).toEqual(1)
     })
 })
 
