@@ -59,7 +59,6 @@ describe('normalize with entitiesSchema', () => {
             },
         ]
         const normalizedData = normalize(testData, entitiesSchema)
-        console.log(normalizedData)
         expect(normalizedData.result.length).toEqual(1)
     })
     it('correctly normalize data with no records', () => {
