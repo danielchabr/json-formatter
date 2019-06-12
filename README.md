@@ -1,5 +1,8 @@
 # JSON Formatter 
-This project allows a user to upload a JSON file and then displays it in a tabular view. The JSON file should contain an array of entities with the following structure TypeScript definition:
+This project allows a user to upload a JSON file and then displays it in a hierarchical tabular view. 
+
+Every item in json consists of it’s own data and array, whose items represents child data. Item’s data can have a variable number of attributes (key: value) and item can have a variable number of nested child items. When you click on item, direct child items are hidden/shown.
+The JSON file should contain an array of entities with the following structure TypeScript definition:
 
 ```
 interface Entity {
@@ -13,6 +16,7 @@ interface Entity {
     }
 }
 ```
+An example file is available [here](example-data.json)
 
 ## Available Scripts
 
