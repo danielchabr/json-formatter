@@ -7,7 +7,7 @@
         "@types/normalizr": "^2.0.18",
         "@types/redux-thunk": "^2.1.0",
         "@types/uuid": "^3.4.4",
-        "immer": "^3.1.2",
+        "immer": "^8.0.1",
         "lodash": "^4.17.11",
         "node-sass": "^4.12.0",
         "normalizr": "^3.3.0",
